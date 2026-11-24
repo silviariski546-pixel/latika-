@@ -1,0 +1,178 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    padding: 16px;
+}
+
+.app-container {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+header h1 { color: #2563eb; font-size: 1.6rem; }
+header p { color: #64748b; font-size: 0.9rem; }
+
+.card {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 16px;
+}
+
+.saldo-card {
+    text-align: center;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+}
+
+.saldo-card h2 {
+    font-size: 2rem;
+    margin: 6px 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.badge.aman { background: #dcfce7; color: #166534; }
+.badge.boros { background: #fee2e2; color: #991b1b; }
+
+.ringkasan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ringkasan-grid p { font-weight: bold; font-size: 1rem; margin-top: 2px; }
+
+/* Target Nabung */
+.target-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.progress-bg {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #10b981;
+    transition: width 0.3s ease;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.row-select {
+    display: flex;
+    gap: 8px;
+}
+
+.row-select select { flex: 1; }
+
+input, select {
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.btn-utama {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-kecil {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.btn-hapus-semua {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* List Riwayat */
+ul { list-style: none; margin-top: 8px; }
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.item-info { display: flex; flex-direction: column; }
+.item-info small { color: #64748b; font-size: 0.75rem; }
+
+.item-kanan { display: flex; align-items: center; gap: 8px; }
+.teks-masuk { color: #16a34a; font-weight: bold; }
+.teks-keluar { color: #dc2626; font-weight: bold; }
+
+.btn-x {
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 10px;
+}
