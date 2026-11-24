@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SakuPelajar Offline</title>
+    <!-- Menghubungkan CSS dan Manifest PWA -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🎒 SakuPelajar</h1>
+            <p>Catat uang jajan & target nabung (Mode Offline)</p>
+        </header>
+
+        <!-- Kartu Ringkasan Saldo -->
+        <section class="card saldo-card">
+            <span class="label">Sisa Uang Jajan</span>
+            <h2 id="sisa-saldo">Rp 0</h2>
+            <div id="status-badge" class="badge aman">Keuangan Aman 👍</div>
+            
+            <div class="ringkasan-grid">
+                <div class="box-masuk">
+                    <small>Uang Masuk</small>
+                    <p id="total-masuk">Rp 0</p>
+                </div>
+                <div class="box-keluar">
+                    <small>Total Jajan</small>
+                    <p id="total-keluar">Rp 0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fitur Tambahan: Celengan Impian -->
+        <section class="card target-card">
+            <div class="target-header">
+                <h3>🎯 Target Nabung</h3>
+                <button id="btn-atur-target" class="btn-kecil">Ubah Target</button>
+            </div>
+            <p id="nama-target">Target: Belum diatur</p>
+            <div class="progress-bg">
+                <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
+            </div>
+            <small id="info-target">Terkumpul Rp 0 dari Rp 0 (0%)</small>
+        </section>
+
+        <!-- Form Catat Transaksi -->
+        <section class="card">
+            <h3>➕ Catat Baru</h3>
+            <form id="form-catat">
+                <input type="text" id="input-ket" placeholder="Untuk apa? (Contoh: Beli bakso)" required>
+                <input type="number" id="input-nominal" placeholder="Nominal Rp (Contoh: 10000)" min="100" required>
+                
+                <div class="row-select">
+                    <select id="input-jenis">
+                        <option value="keluar">Jajan / Keluar (-)</option>
+                        <option value="masuk">Uang Saku / Masuk (+)</option>
+                    </select>
+                    <select id="input-kategori">
+                        <option value="Makan/Minum">🍔 Makan/Minum</option>
+                        <option value="Ongkos">🛵 Ongkos/Bensin</option>
+                        <option value="Tugas">📚 Tugas/Alat Tulis</option>
+                        <option value="Uang Saku">💵 Uang Saku</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-utama">Simpan Catatan</button>
+            </form>
+        </section>
+
+        <!-- Daftar Riwayat -->
+        <section class="card">
+            <div class="target-header">
+                <h3>📜 Riwayat Hari Ini</h3>
+                <button id="btn-reset" class="btn-hapus-semua">Reset</button>
+            </div>
+            <ul id="list-riwayat"></ul>
+        </section>
+
+        <footer>
+            <p>Karya Tim SMK Kelas 11: [Nama Siswa 1] & [Nama Siswa 2]</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
