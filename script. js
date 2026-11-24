@@ -1,0 +1,129 @@
+// Ambil data dari memori HP (localStorage)
+let daftarTransaksi = JSON.parse(localStorage.getItem('sakuPelajarData')) || [];
+let targetNabung = JSON.parse(localStorage.getItem('sakuPelajarTarget')) || { nama: 'Belum diatur', nominal: 0 };
+
+// Hubungkan elemen HTML
+const formCatat = document.getElementById('form-catat');
+const listRiwayat = document.getElementById('list-riwayat');
+const sisaSaldoEl = document.getElementById('sisa-saldo');
+const totalMasukEl = document.getElementById('total-masuk');
+const totalKeluarEl = document.getElementById('total-keluar');
+const statusBadge = document.getElementById('status-badge');
+
+function formatRupiah(angka) {
+    return 'Rp ' + angka.toLocaleString('id-ID');
+}
+
+function simpanData() {
+    localStorage.setItem('sakuPelajarData', JSON.stringify(daftarTransaksi));
+    localStorage.setItem('sakuPelajarTarget', JSON.stringify(targetNabung));
+}
+
+function tampilkanSemua() {
+    listRiwayat.innerHTML = '';
+    let masuk = 0;
+    let keluar = 0;
+
+    daftarTransaksi.forEach((item, index) => {
+        if (item.jenis === 'masuk') {
+            masuk += item.nominal;
+        } else {
+            keluar += item.nominal;
+        }
+
+        const li = document.createElement('li');
+        const warnaTeks = item.jenis === 'masuk' ? 'teks-masuk' : 'teks-keluar';
+        const tanda = item.jenis === 'masuk' ? '+' : '-';
+
+        li.innerHTML = `
+            <div class="item-info">
+                <strong>${item.ket}</strong>
+                <small>${item.kategori}</small>
+            </div>
+            <div class="item-kanan">
+                <span class="${warnaTeks}">${tanda} ${formatRupiah(item.nominal)}</span>
+                <button class="btn-x" onclick="hapusSatu(${index})">X</button>
+            </div>
+        `;
+        listRiwayat.appendChild(li);
+    });
+
+    const saldo = masuk - keluar;
+    sisaSaldoEl.textContent = formatRupiah(saldo);
+    totalMasukEl.textContent = formatRupiah(masuk);
+    totalKeluarEl.textContent = formatRupiah(keluar);
+
+    // Cek status boros
+    if (saldo < 0) {
+        statusBadge.textContent = 'Uang Minus! Kurangi Jajan 🚨';
+        statusBadge.className = 'badge boros';
+    } else if (keluar > masuk * 0.8 && masuk > 0) {
+        statusBadge.textContent = 'Waspada Boros (>80% terpakai) ⚠️';
+        statusBadge.className = 'badge boros';
+    } else {
+        statusBadge.textContent = 'Keuangan Aman 👍';
+        statusBadge.className = 'badge aman';
+    }
+
+    // Update Progress Bar Target Nabung
+    document.getElementById('nama-target').textContent = `Target: ${targetNabung.nama}`;
+    if (targetNabung.nominal > 0) {
+        const terkumpul = saldo > 0 ? saldo : 0;
+        let persen = Math.min(100, Math.round((terkumpul / targetNabung.nominal) * 100));
+        document.getElementById('progress-bar').style.width = persen + '%';
+        document.getElementById('info-target').textContent = 
+            `Terkumpul ${formatRupiah(terkumpul)} dari ${formatRupiah(targetNabung.nominal)} (${persen}%)`;
+    }
+}
+
+// Tambah transaksi baru
+formCatat.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const ket = document.getElementById('input-ket').value;
+    const nominal = parseInt(document.getElementById('input-nominal').value);
+    const jenis = document.getElementById('input-jenis').value;
+    const kategori = document.getElementById('input-kategori').value;
+
+    daftarTransaksi.push({ ket, nominal, jenis, kategori });
+    simpanData();
+    tampilkanSemua();
+    formCatat.reset();
+});
+
+// Hapus 1 catatan
+function hapusSatu(index) {
+    daftarTransaksi.splice(index, 1);
+    simpanData();
+    tampilkanSemua();
+}
+
+// Atur Target Nabung
+document.getElementById('btn-atur-target').addEventListener('click', function() {
+    const namaBaru = prompt('Mau nabung buat beli apa?', targetNabung.nama);
+    const nominalBaru = parseInt(prompt('Berapa harga/target nominalnya (angka saja)?', targetNabung.nominal));
+    
+    if (namaBaru && nominalBaru > 0) {
+        targetNabung = { nama: namaBaru, nominal: nominalBaru };
+        simpanData();
+        tampilkanSemua();
+    }
+});
+
+// Reset Semua Data
+document.getElementById('btn-reset').addEventListener('click', function() {
+    if (confirm('Hapus semua catatan uang jajan?')) {
+        daftarTransaksi = [];
+        simpanData();
+        tampilkanSemua();
+    }
+});
+
+// Daftarkan Service Worker agar bisa Offline & Install di HP
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Mode Offline Siap!'))
+        .catch((err) => console.log('Gagal daftar SW:', err));
+}
+
+// Jalankan pertama kali
+tampilkanSemua();
